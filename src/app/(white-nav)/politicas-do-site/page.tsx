@@ -2,15 +2,19 @@
 
 import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { cookiePolicy, privacyPolicy, termsAndConditions } from "@/utils/policyData";
 
 export default function PolicyPage() {
     const searchParams = useSearchParams();
-    const tabIndex = parseInt(searchParams.get("tab") || "0", 10);
+    const [selectedTab, setSelectedTab] = useState(0);
 
-    const [selectedTab, setSelectedTab] = useState(tabIndex);
+    // Atualizando o tabIndex apenas no client-side
+    useEffect(() => {
+        const tabIndex = parseInt(searchParams?.get("tab") || "0", 10);
+        setSelectedTab(tabIndex);
+    }, [searchParams]);
 
     return (
         <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[100px] px-4 sm:px-8 lg:px-12">
