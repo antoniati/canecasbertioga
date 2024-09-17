@@ -215,4 +215,4 @@ export const PolicyPageManager: React.FC<{ defaultTabIndex?: number }> = ({ defa
             </section>
         </Suspense>
     );
-}
+};
