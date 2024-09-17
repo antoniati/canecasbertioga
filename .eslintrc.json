@@ -1,0 +1,64 @@
+{
+  "root": true, // Define que este é o arquivo de configuração raiz do ESLint, impedindo a busca de arquivos de configuração em diretórios pai.
+  "parser": "@typescript-eslint/parser", // Define o parser do ESLint para TypeScript, permitindo a análise de código TypeScript.
+  "parserOptions": {
+    "ecmaVersion": 2020, // Define a versão do ECMAScript que o parser deve suportar. Aqui é 2020, que é o ES11.
+    "sourceType": "module" // Define o tipo de módulo usado no código. "module" permite o uso de importações e exportações ES6.
+  },
+  "plugins": [
+    "@typescript-eslint", // Adiciona o plugin do ESLint para TypeScript, que fornece regras e funcionalidades específicas para TypeScript.
+    "import" // Adiciona o plugin do ESLint para importações, ajudando a gerenciar e validar importações e exportações.
+  ],
+  "extends": [
+    "next/core-web-vitals", // Extende a configuração recomendada para projetos Next.js focada em web vitals.
+    "eslint:recommended", // Aplica um conjunto de regras recomendadas do ESLint para uma base sólida.
+    "plugin:@typescript-eslint/recommended", // Aplica as regras recomendadas do plugin TypeScript para ESLint.
+    "plugin:import/errors", // Adiciona regras para erros de importação.
+    "plugin:import/warnings", // Adiciona regras para avisos de importação.
+    "plugin:import/typescript" // Adiciona suporte para regras de importação específicas para TypeScript.
+  ],
+  "rules": {
+    "import/order": [
+      "error", // Define o nível de severidade da regra. "error" vai fazer com que o ESLint trate as violações como erros.
+      {
+        "groups": [
+          "builtin", // Agrupa módulos nativos do Node.js.
+          "external", // Agrupa módulos externos, como pacotes npm.
+          "internal", // Agrupa módulos internos ao projeto.
+          [
+            "parent", // Agrupa módulos relativos ao diretório pai.
+            "sibling", // Agrupa módulos relativos ao diretório irmão.
+            "index" // Agrupa módulos indexados.
+          ]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**", // Define um padrão para módulos internos que usam a convenção de alias "@".
+            "group": "internal" // Agrupa os módulos que correspondem ao padrão como internos.
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "builtin" // Exclui módulos nativos da ordenação especificada.
+        ],
+        "newlines-between": "always", // Exige uma nova linha entre grupos de importações.
+        "alphabetize": {
+          "order": "asc", // Ordena as importações em ordem alfabética.
+          "caseInsensitive": true // A ordenação alfabética não deve diferenciar maiúsculas de minúsculas.
+        }
+      }
+    ],
+    "no-var": "error", // Proíbe o uso de "var" e exige o uso de "let" ou "const" para declarações de variáveis.
+    "quotes": [
+      "error",
+      "double"
+    ], // Exige o uso de aspas duplas para strings.
+    "semi": [
+      "error",
+      "always"
+    ], // Exige o uso de ponto e vírgula no final de cada declaração.
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ] // Exige vírgulas finais em objetos e arrays de múltiplas linhas.
+  }
+}
