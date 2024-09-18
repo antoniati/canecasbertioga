@@ -18,12 +18,12 @@ export default function AccountPage() {
                 </header>
 
                 {/* Grupo de Abas */}
-                <div className="mt-6 flex space-x-4 bg-white p-2 rounded-lg shadow-md">
+                <div className="mt-6 flex space-x-4 bg-white p-2 rounded-lg shadow-md overflow-auto">
                     <button
                         className={clsx(
-                            "w-auto px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
+                            "w-auto whitespace-nowrap px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
                             selectedTab === 0
-                                ? "bg-gray-600 text-white shadow"
+                                ? "bg-gray-600 text-white shadow"   
                                 : "bg-gray-100 text-gray-700 hover:bg-gray-200",
                         )}
                         onClick={() => setSelectedTab(0)}
@@ -34,7 +34,7 @@ export default function AccountPage() {
 
                     <button
                         className={clsx(
-                            "w-auto px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
+                            "w-auto whitespace-nowrap px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
                             selectedTab === 1
                                 ? "bg-gray-600 text-white shadow"
                                 : "bg-gray-100 text-gray-700 hover:bg-gray-200",
@@ -46,7 +46,7 @@ export default function AccountPage() {
                     </button>
                     <button
                         className={clsx(
-                            "w-auto px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
+                            "w-auto whitespace-nowrap px-4 py-2 text-sm leading-5 font-medium rounded-lg transition-colors flex items-center justify-center space-x-2",
                             selectedTab === 2
                                 ? "bg-gray-600 text-white shadow"
                                 : "bg-gray-100 text-gray-700 hover:bg-gray-200",
