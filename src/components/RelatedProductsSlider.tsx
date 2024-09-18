@@ -17,8 +17,8 @@ export const RelatedProductsSlider = () => {
     const { addProduct } = cartContext;
 
     return (
-        <section className="space-y-6 mt-12 px-4 md:px-8 pb-[40px]">
-            <h2 className="text-3xl font-semibold text-gray-800 border-b border-gray-200 pb-4">
+        <section className="space-y-6 mt-12 pb-[40px]">
+            <h2 className="text-lg sm:text-2xl sm:text-start text-center font-semibold text-gray-800 border-b border-gray-200 pb-4">
                 Produtos Relacionados
             </h2>
             <div className="flex overflow-x-auto gap-6 py-4">

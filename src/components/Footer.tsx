@@ -28,18 +28,18 @@ export const Footer = (): JSX.Element => {
                 <div className="flex flex-col space-y-2">
                     <h4 className="font-semibold border-b border-slate-300 w-[200px] pb-2">Políticas do Site</h4>
                     <ul className="space-y-1">
-                        <li><Link className="text-blue-500 hover:text-blue-700" href={`/politicas-do-site?tab=${0}`}>Termos e Condições</Link></li>
-                        <li><Link className="text-blue-500 hover:text-blue-700" href={`/politicas-do-site?tab=${1}`}>Políticas de Privacidade</Link></li>
-                        <li><Link className="text-blue-500 hover:text-blue-700" href={`/politicas-do-site?tab=${2}`}>Políticas de Cookies</Link></li>
+                        <li><Link className="text-blue-500 hover:text-blue-700" href={"/politicas-do-site/termos-e-condicoes"}>Termos e Condições</Link></li>
+                        <li><Link className="text-blue-500 hover:text-blue-700" href={"/politicas-do-site/politicas-de-privacidade"}>Políticas de Privacidade</Link></li>
+                        <li><Link className="text-blue-500 hover:text-blue-700" href={"/politicas-do-site/politicas-de-cookies"}>Políticas de Cookies</Link></li>
                     </ul>
                 </div>
                 <div className="flex flex-col space-y-2">
                     <h4 className="font-semibold border-b border-slate-300 w-[200px] pb-2">Siga-nos nas Redes Sociais</h4>
                     <div className="flex p-2 gap-4">
-                        <Link href={"https://www.instagram.com/canecasbertioga/"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <InstagramIcon w="36" h="36" /> </Link>
-                        <Link href={"https://www.facebook.com/canecasbertioga"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <FacebookIcon w="36" h="36" /> </Link>
-                        <Link href={"https://www.youtube.com/@canecasbertioga"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <YoutubeIcon w="38" h="38" /> </Link>
-                        <Link href={"#"} className="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-105"> <WhatsappIcon w="36" h="36" /> </Link>
+                        <Link target="_blank" href={"https://www.instagram.com/canecasbertioga/"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <InstagramIcon w="36" h="36" /> </Link>
+                        <Link target="_blank" href={"https://www.facebook.com/canecasbertioga"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <FacebookIcon w="36" h="36" /> </Link>
+                        <Link target="_blank" href={"https://www.youtube.com/@canecasbertioga"} className="text-blue-500 hover:text-blue-700 transition-transform transform hover:scale-105"> <YoutubeIcon w="38" h="38" /> </Link>
+                        <Link target="_blank" href={"https://www.youtube.com/@canecasbertioga"} className="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-105"> <WhatsappIcon w="36" h="36" /> </Link>
                     </div>
                 </div>
             </section>

@@ -2,8 +2,8 @@ import React from "react";
 
 export default function FeedbackSuggestions() {
     return (
-        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[100px] px-4 sm:px-8 lg:px-12">
-            <div className="w-full bg-white rounded-md shadow-lg p-8">
+        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[80px] sm:py-[100px] px-4 sm:px-8 lg:px-12">
+            <div className="w-full bg-white rounded-md shadow-lg p-4 sm:p-8">
                 <header className="w-full flex flex-col border-b pb-4 mb-4 gap-2">
                     <h1 className="font-bold text-2xl text-gray-800">Feedback e Sugestões</h1>
                     <p className="text-md text-gray-500">Sua opinião é fundamental para nós!</p>
@@ -11,7 +11,7 @@ export default function FeedbackSuggestions() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-[40px]">
                     {/* Avaliações de Produtos */}
-                    <div className="h-auto lg:h-[250px] bg-slate-50 p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
+                    <div className="h-auto lg:h-[250px] bg-slate-50 p-4 sm:p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
                         <p className="text-gray-700 mb-4">
                             Para melhorar continuamente nossos produtos e serviços, precisamos ouvir você. 
                             Avalie os produtos que você comprou e deixe seu comentário na seção <strong>Seus Pedidos &gt; Pedidos Entregues</strong>.
@@ -22,7 +22,7 @@ export default function FeedbackSuggestions() {
                     </div>
 
                     {/* Sugestões de Melhoria */}
-                    <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">Compartilhe Suas Sugestões</h2>
                         <p className="text-gray-700 mb-4">
                             Tem alguma ideia para melhorar nossos serviços ou produtos? Envie suas sugestões através do formulário abaixo. 

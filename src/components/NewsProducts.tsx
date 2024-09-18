@@ -35,9 +35,10 @@ export const NewsProducts = () => {
                                     <Image
                                         path={product.files[3]}
                                         alt={`Imagem ${product.name}`}
-                                        className="w-full border-2 border-slate-200 hover:border-blue-500 transition-all duration-300 rounded-md object-cover"
+                                        className="object-contain w-auto h-auto max-w-full max-h-full border-2 border-slate-200 hover:border-blue-500 transition-all duration-300 rounded-md"
                                         width={1000}
                                         height={1000}
+                                        priority={true}
                                     />
                                     <div className=" absolute top-0 right-0 w-full h-full rounded-md opacity-0 hover:opacity-50 bg-gray-900 transition-all duration-500 flex flex-col items-center justify-center space-y-4">
                                         <span className="absolute top-0 right-0 mr-4 mt-4 text-white">

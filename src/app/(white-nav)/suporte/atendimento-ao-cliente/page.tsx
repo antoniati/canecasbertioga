@@ -4,8 +4,8 @@ import { WhatsappIcon } from "@/components/Icons";
 
 export default function SupportCenter() {
     return (
-        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[100px] px-4 sm:px-8 lg:px-12">
-            <div className="w-full bg-white rounded-md shadow-lg p-8">             
+        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[80px] sm:py-[100px] px-4 sm:px-8 lg:px-12">
+            <div className="w-full bg-white rounded-md shadow-lg p-4 sm:p-8">             
                 <header className="w-full flex flex-col border-b pb-4 mb-4 gap-2">                    
                     <h1 className="font-bold text-2xl text-gray-800">Atendimento ao Cliente</h1>
                     <p className="text-md text-gray-500">Atendimento durante o horário comercial, das 9h às 18h.</p>
@@ -14,7 +14,7 @@ export default function SupportCenter() {
                     {/* Contact Methods */}
                     <div className="flex flex-col-reverse md:flex-col gap-8 mb-0 md:mb-12">
                         {/* Email Support */}
-                        <div className="flex-1 bg-slate-50 p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
+                        <div className="flex-1 bg-slate-50 p-4 sm:p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
                             <h2 className="text-lg font-semibold text-slate-700 flex items-center">
                                 Suporte por E-mail
                             </h2>
@@ -25,7 +25,7 @@ export default function SupportCenter() {
                         </div>
 
                         {/* Phone Support */}
-                        <div className="flex-1 bg-slate-50 p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
+                        <div className="flex-1 bg-slate-50 p-4 sm:p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out">
                             <h2 className="text-lg font-semibold text-slate-700 flex items-center">
                                 Suporte por Telefone
                             </h2>
@@ -44,7 +44,7 @@ export default function SupportCenter() {
                     </div>
 
                     {/* Contact Form */}
-                    <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">Formulário de Cantato</h2>
                         <form action="#" method="POST" className="space-y-4">
                             <div>

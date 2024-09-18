@@ -7,7 +7,7 @@ import { faqData } from "@/components/FAQSection";
 
 export default function FAQPage() {
     return (
-        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[100px] px-4 sm:px-8 lg:px-12">
+        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[80px] sm:py-[100px] px-4 sm:px-8 lg:px-12">
             <div className="w-full h-auto bg-white p-4 sm:p-8 lg:p-12 rounded-md shadow-md">
                 <header className="w-full flex flex-col border-b pb-4 mb-4 gap-2">
                     <h1 className="font-bold text-lg sm:text-2xl text-gray-800">Perguntas Frequentes</h1>
@@ -27,7 +27,7 @@ export default function FAQPage() {
                     {faqData.map(({ header, body }, index) => (
                         <div
                             key={index}
-                            className="bg-slate-50 p-5 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out"
+                            className="bg-slate-50 p-4 sm:p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out"
                         >
                             <h2 className="text-lg font-semibold text-slate-700 flex items-center">
                                 {header}

@@ -36,6 +36,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
                 <div className="max-w-lg flex flex-col items-center justify-center gap-[15px]">
                     <p className="bg-rose-50 text-rose-500 px-4 py-8 rounded-md font-medium">
                         ID Inválido ou inexistente. Por favor, verifique e tente novamente.
+                        {params.productId}
                     </p>
                     <Link href={"/categorias/lista-de-categorias"} className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md transition-colors duration-300">
                         OK
@@ -70,7 +71,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
     categories;
 
     return (
-        <section className="w-full h-auto py-[80px] px-4 md:px-[40px] lg:px-[80px]">
+        <section className="w-full h-auto py-[80px] px-4 md:px-8 lg:px-12">
             <div className="w-full flex lg:flex-row flex-col gap-[40px] justify-start items-start">
                 <div className="w-full lg:w-2/4 h-[auto] border border-slate-400 rounded-lg p-1">
                     <MugDetailImageSlider images={products[0].files || []} />
@@ -79,8 +80,8 @@ export default function MugDetails({ params }: { params: { productId: string } }
                     <div className="space-y-4 mt-0 sm:mt-4">
                         <h1 className="text-2xl font-bold text-gray-900">{products[0].name}</h1>
                         <p className="text-gray-700">{products[0].description}</p>
-                        {params.productId}
                     </div>
+                    
                     <div className="space-y-1">
                         <h2 className="font-medium">Por apenas</h2>
                         <div className="flex items-center space-x-2">
@@ -90,6 +91,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
                             <span className="text-sm text-gray-500">unidade</span>
                         </div>
                     </div>
+
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 overflow-auto h-[200px] pr-4 pt-4">
                         {productDetails.map((category) => (
                             <div key={category.category} className="px-2">
@@ -108,7 +110,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
                         ))}
                     </div>
 
-                    <div className="w-full flex flex-col md:flex-row gap-2 py-4">
+                    <div className="w-full flex flex-col-reverse md:flex-row gap-2 py-4">
                         <button
                             type="button"
                             className="w-full sm:w-auto border border-[#0074d4] hover:shadow-md px-4 py-2 rounded-md  text-[#0074d4] cursor-pointer transition-all duration-300 font-semibold"
@@ -128,7 +130,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
                 </div>
             </div>
 
-            <div className="space-y-4 mt-8 p-4 bg-slate-50 rounded-lg">
+            <div className="space-y-4 mt-8 p-4 bg-slate-50 rounded-md">
                 <h2 className="font-bold text-lg">Descubra o Local da Estampa</h2>
                 <p>
                     {products[0].locationDescription}

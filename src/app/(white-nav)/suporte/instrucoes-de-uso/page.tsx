@@ -44,7 +44,7 @@ const instructionSections: InstructionSection[] = [
 
 export default function UsageCareInstructions() {
     return (
-        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[100px] px-4 sm:px-8 lg:px-12">
+        <section className="w-full h-auto bg-gradient-to-br from-gray-50 to-gray-200 py-[80px] sm:py-[100px] px-4 sm:px-8 lg:px-12">
             <div className="w-full h-auto bg-white p-4 sm:p-8 lg:p-12 rounded-md shadow-md">
                 <header className="w-full flex flex-col border-b pb-4 mb-4 gap-2">
                     <h1 className="font-bold text-lg sm:text-2xl text-gray-800">Instruções de Uso e Cuidados</h1>
@@ -53,7 +53,7 @@ export default function UsageCareInstructions() {
 
                 <div className="space-y-8">
                     {instructionSections.map(({ title, description, additionalInfo }, index) => (
-                        <div key={index} className="bg-slate-50 p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out" >
+                        <div key={index} className="bg-slate-50 p-4 sm:p-6 rounded-lg shadow-sm hover:bg-slate-100 transition duration-300 ease-in-out" >
                             <div className="flex items-start">
                                 <div className="">
                                     <h2 className="text-lg font-semibold text-gray-800">{title}</h2>

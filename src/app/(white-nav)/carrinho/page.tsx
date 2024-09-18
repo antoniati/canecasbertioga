@@ -19,7 +19,7 @@ export default function CartPage() {
 
     return (
         cartProducts && cartProducts?.length > 0 ? (
-            <div className="w-2/4 h-auto md:h-screen py-[80px] px-4 md:px-8 lg:px-12 flex justify-start items-start flex-col-reverse md:flex-row gap-[10px]">
+            <div className="w-full sm:w-2/4 h-auto md:h-screen py-[80px] px-4 md:px-8 lg:px-12 flex justify-start items-start flex-col-reverse md:flex-row gap-[10px]">
                 <CartTable
                     products={products}
                     cartProducts={cartProducts}
