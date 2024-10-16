@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Hind } from "next/font/google";
+import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+import { auth } from "@/auth";
 import { CartContextProvider } from "@/contexts/CartContextProvider";
+import { SearchModalProvider } from "@/contexts/SearchModalContext";
+import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { UserProvider } from "@/providers/UserProvider";
 
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const hind = Hind({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -50,44 +53,74 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
 
   return (
-
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <body>
-        <CartContextProvider>
-          {children}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Product",
-                name: "Caneca Exclusiva de Bertioga",
-                description:
-                  "Uma caneca que captura a essência da Costa Paulista, perfeita para quem valoriza o design único e a autenticidade local.",
-                image: "https://www.canecasbertioga.com.br/og-image.jpg",
-                brand: {
-                  "@type": "Brand",
-                  name: "Canecas Bertioga",
-                },
-                offers: {
-                  "@type": "Offer",
-                  priceCurrency: "BRL",
-                  price: "35.00",
-                  url: "https://www.canecasbertioga.com.br/produtos/caneca-exclusiva-de-bertioga",
-                  availability: "https://schema.org/InStock",
-                },
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: "4.9",
-                  reviewCount: "150",
-                },
-              }),
-            }}
+    <SessionProvider session={session} >
+      <html lang="pt-BR" className={`${hind.className} antialiased bg-gradient-to-r from-blue-900 to-sky-600 `}>
+        <head>
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
           />
-        </CartContextProvider>
-      </body>
-    </html>
+          <Script
+            src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"
+            strategy="beforeInteractive" // Ou "afterInteractive" se preferir
+          />
+        </head>
+        <body>
+          <CartContextProvider>
+            <UserProvider>
+              <ReactQueryProvider>
+                <SearchModalProvider>
+                  {children}
+                </SearchModalProvider>
+              </ReactQueryProvider>
+              <ToastContainer
+                className={"top-[80px]"}
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </UserProvider>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Product",
+                  name: "Caneca Exclusiva de Bertioga",
+                  description:
+                    "Uma caneca que captura a essência da Costa Paulista, perfeita para quem valoriza o design único e a autenticidade local.",
+                  image: "https://www.canecasbertioga.com.br/og-image.jpg",
+                  brand: {
+                    "@type": "Brand",
+                    name: "Canecas Bertioga",
+                  },
+                  offers: {
+                    "@type": "Offer",
+                    priceCurrency: "BRL",
+                    price: "35.00",
+                    url: "https://www.canecasbertioga.com.br/produtos/caneca-exclusiva-de-bertioga",
+                    availability: "https://schema.org/InStock",
+                  },
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: "4.9",
+                    reviewCount: "150",
+                  },
+                }),
+              }}
+            />
+          </CartContextProvider>
+        </body>
+      </html>
+    </SessionProvider >
   );
 }

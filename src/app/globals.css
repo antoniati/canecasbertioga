@@ -10,7 +10,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  scrollbar-width: none;
 }
 
 @layer utilities {
@@ -22,14 +21,14 @@ body {
 /* Scrollbar Styles */
 @layer base {
   ::-webkit-scrollbar {
-    @apply w-0 h-0;
+    @apply w-[14px] h-[14px];
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-100 rounded-full;
+    @apply bg-white;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-400 rounded-full;
+    @apply bg-gray-500 cursor-grab;
   }
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { ProductSearch } from "@/components/ProductSearch";
+import { SearchModalProvider } from "@/contexts/SearchModalContext";
 
 export const metadata: Metadata = {
     title: "Canecas Exclusivas de Bertioga | Um Brinde à Costa Paulista",
@@ -17,9 +19,12 @@ export default async function RootLayout({
 }>) {
     return (
         <main>
-            <Navbar scrollHeigh={0} />
-            {children}
-            <Footer />
+            <SearchModalProvider>
+                <Navbar scrollHeigh={0} />
+                {children}
+                <Footer />
+                <ProductSearch />
+            </SearchModalProvider>
         </main>
     );
 }

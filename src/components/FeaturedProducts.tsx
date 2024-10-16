@@ -1,15 +1,19 @@
 "use client";
 
+import { Product } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 
+import { ChevronIcon } from "@/components/Icons";
 import { CartContext } from "@/contexts/CartContextProvider";
-import { products } from "@/utils/productDataTest";
 
-import { Image } from "./Image"; // image kit
+import { LoadingPage } from "./LoadingPage";
 
-export const FeaturedProducts = (): JSX.Element => {
-    const [currentSlide, setCurrentSlide] = useState<number>(0);
+export const FeaturedProducts = ({ products }: { products: Product[] }): JSX.Element => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const cartContext = useContext(CartContext);
 
@@ -19,57 +23,125 @@ export const FeaturedProducts = (): JSX.Element => {
 
     const { addProduct } = cartContext;
 
+    // Usando useMemo para memorizar featuredProducts
+    const featuredProducts = useMemo(() => products?.slice(0, 3) || [], [products]);
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % products.length);
-        }, 10000);
+        if (featuredProducts.length > 0) {
+            const interval = setInterval(() => {
+                setCurrentSlide((prev) => (prev + 1) % featuredProducts.length);
+            }, 10000);
+            return () => clearInterval(interval);
+        }
+    }, [featuredProducts]);
 
-        return () => clearInterval(interval);
-    }, []);
-
-    const extractDescriptionUntilFirstPeriod = (description: string): string => {
-        const periodIndex = description.indexOf(".");
-        return periodIndex !== -1 ? description.slice(0, periodIndex + 1) : description;
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % featuredProducts.length);
     };
 
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
+    };
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (touchStartX === null) return;
+
+        const touchEndX = e.touches[0].clientX;
+        const touchDifference = touchStartX - touchEndX;
+
+        if (touchDifference > 50) {
+            nextSlide();
+            setTouchStartX(null);
+        } else if (touchDifference < -50) {
+            prevSlide();
+            setTouchStartX(null);
+        }
+    };
+
+    const handleTouchEnd = () => {
+        setTouchStartX(null);
+    };
+
+    const handleViewDetails = () => {
+        setLoading(true);
+    };
+
+    if (loading) {
+        return <LoadingPage />;
+    }
+
     return (
-        <section className="relative w-full flex flex-col-reverse md:flex-row items-center bg-gradient-to-r from-blue-900 to-sky-600 text-white px-4 md:px-8 lg:px-12 pt-[40px]">
-            <div className="w-full md:w-2/4 flex flex-col items-start justify-center gap-4 py-0 md:py-12 text-white">
-                <h1 className="text-2xl md:text-3xl font-bold leading-8 md:leading-9">
-                    {products[currentSlide]?.name}
+        <section
+            className="relative flex flex-col-reverse md:flex-row items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100 text-slate-800 py-12 lg:py-24 px-1 md:px-6 lg:px-12 xl:px-24"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
+            <div className="w-full md:w-1/2 text-center md:text-left px-2">
+                <h1 className="text-lg md:text-2xl lg:text-5xl font-bold mb-4">
+                    {featuredProducts[currentSlide]?.name || ""}
                 </h1>
-                <h2 className="flex flex-col items-start md:items-end text-lg md:text-xl absolute right-[10px] md:right-[80px] top-[80px] z-10 bg-slate-700/90 p-2 rounded-md">
-                    <span className="text-[14px] sm:text-[16px]">por apenas</span>
-                    <b className="text-lg md:text-3xl">R$ 49,99</b>
-                    <span className="text-xs">unidade</span>
-                </h2>
-                <p className="max-w-[650px] xl:max-w-[800px] text-base md:text-lg leading-6 md:leading-7">
-                    {extractDescriptionUntilFirstPeriod(products[currentSlide]?.description || "")}
+                <p className="text-base lg:text-lg mb-6">
+                    {featuredProducts[currentSlide]?.description || ""}
                 </p>
-                <div className="w-full flex flex-col md:flex-row gap-2 py-4">
+                <button
+                    type="button"
+                    onClick={() =>
+                        addProduct(
+                            featuredProducts[currentSlide]?.id ?? "",
+                            featuredProducts[currentSlide]?.name ?? "",
+                            featuredProducts[currentSlide]?.files[1] ?? "",
+                        )
+                    }
+                    className="w-full md:w-auto text-center py-3 px-6 text-white font-semibold rounded-full shadow-md bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                >
+                    Adicionar ao Carrinho
+                </button>
+            </div>
+
+            {featuredProducts.length > 0 && (
+                <div className="w-full relative md:w-1/2 flex justify-center items-center">
+                    <div className="p-2 rounded-lg shadow text-center absolute top-[20px] right-0 z-10 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                        <h2 className="text-base lg:text-xl">por apenas</h2>
+                        <p className="flex flex-row lg:flex-col text-lg items-center lg:text-3xl font-bold">
+                            R$ {featuredProducts[currentSlide]?.price}
+                            <span className="w-auto lg:w-full text-sm font-medium text-end">/unidade</span>
+                        </p>
+                    </div>
+
                     <Link
-                        href={"/carrinho"}
-                        type="button"
-                        onClick={() => addProduct(products[currentSlide].id)}
-                        className="w-full sm:w-auto bg-[#0A91FF] hover:bg-[#33A3FF] hover:shadow-md text-slate-50 px-4 py-2 rounded-md cursor-pointer text-center font-semibold"
+                        href={`/canecas/detalhes/${featuredProducts[currentSlide]?.id}`}
+                        className="w-full sm:h-auto h-[320px] relative"
+                        onClick={handleViewDetails}
                     >
-                        Comprar Agora
-                    </Link>
-                    <Link href={`/canecas/detalhes/${products[currentSlide]?.id}`} className="w-full sm:w-auto border border-slate-50 text-slate-50 px-4 py-2 rounded-md cursor-pointer text-center font-semibold hover:shadow-md">
-                        Ver Detalhes
+                        <Image
+                            className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                            src={`${featuredProducts[currentSlide]?.files[3] ?? "/"}`}
+                            alt={`Imagem ${featuredProducts[currentSlide]?.name}`}
+                            width={1000}
+                            height={800}
+                            priority
+                        />
                     </Link>
                 </div>
-            </div>
-            <div className="w-full md:w-2/4 flex items-center justify-center md:justify-end pr-[0px] md:pr-[40px] mt-[40px] sm:mt-[0px]">
-                <Image
-                    className="object-contain w-auto h-auto max-w-full max-h-full"
-                    path={products[currentSlide].files[3]}
-                    alt={`Imagem ${products[currentSlide]?.name}`}
-                    width={2000}
-                    height={1800}
-                    priority={true}
-                />
-            </div>
+            )}
+
+            <button
+                className="top-2/4 hidden lg:block absolute left-[10px] bg-white text-gray-600 font-bold p-2 -rotate-90 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out"
+                onClick={prevSlide}
+            >
+                <ChevronIcon w="20" h="20" />
+            </button>
+            <button
+                className="top-2/4 hidden lg:block absolute right-[10px] bg-white text-gray-600 font-bold p-2 rotate-90 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out"
+                onClick={nextSlide}
+            >
+                <ChevronIcon w="20" h="20" />
+            </button>
         </section>
     );
 };

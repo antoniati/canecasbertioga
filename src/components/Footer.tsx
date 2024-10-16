@@ -4,8 +4,8 @@ import { FacebookIcon, InstagramIcon, WhatsappIcon, YoutubeIcon } from "./Icons"
 
 export const Footer = (): JSX.Element => {
     return (
-        <footer className="bg-gray-50">
-            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-[40px] px-8 lg:px-12 border-t border-slate-200 gap-[20px]">
+        <footer className="bg-white">
+            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-[40px] px-6 lg:px-12 xl:px-24 justify-items-start sm:justify-items-center border-t border-slate-200 gap-[20px]">
                 <div className="flex flex-col space-y-2">
                     <h4 className="font-semibold border-b border-slate-300 w-[200px] pb-2">Loja</h4>
                     <ul className="space-y-1">

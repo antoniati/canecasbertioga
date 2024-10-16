@@ -1,28 +1,41 @@
 "use client";
 
-import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-import { FAQSection } from "@/components/FAQSection";
+import { Benefits } from "@/components/Benefits";
+import { LoadingPage } from "@/components/LoadingPage";
 import { MugDetailImageSlider } from "@/components/MugDetailImageSlider";
-import { RelatedProductsSlider } from "@/components/RelatedProductsSlider";
+import { ProductCard } from "@/components/ProductCard";
 import { CartContext } from "@/contexts/CartContextProvider";
-import { categories } from "@/utils/categoriesDataTest";
-import { products, Properties } from "@/utils/productDataTest";
+import { useProductDataById, useProductsData } from "@/hooks/useProductsData";
 
-const transformProductDetails = (details: Properties[]): { name: string; value: string }[] => {
+export interface Properties {
+    name: string;
+    value: string[];
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const transformProductDetails = (details: any) => {
     if (!Array.isArray(details)) {
         return [];
     }
 
-    return details.map((item: Properties) => ({
-        name: item.name,
-        value: item.value.join(", "),
+    return details.map((item: any) => ({
+        name: item?.name || "N/A",
+        value: Array.isArray(item?.value) ? item.value.join(", ") : String(item?.value || "N/A"),
     }));
 };
 
 export default function MugDetails({ params }: { params: { productId: string } }) {
+    const { data: products } = useProductsData();
+    const { product, isLoading } = useProductDataById(params.productId);
+
     const cartContext = useContext(CartContext);
+    const [loading, setLoading] = useState(false);
+
+    const handleViewDetails = () => {
+        setLoading(true);
+    };
 
     if (!cartContext) {
         throw new Error("CartContext not found");
@@ -30,65 +43,51 @@ export default function MugDetails({ params }: { params: { productId: string } }
 
     const { addProduct } = cartContext;
 
-    if (!products[0]) {
-        return (
-            <section className="w-full h-screen flex items-center justify-center px-4">
-                <div className="max-w-lg flex flex-col items-center justify-center gap-[15px]">
-                    <p className="bg-rose-50 text-rose-500 px-4 py-8 rounded-md font-medium">
-                        ID Inválido ou inexistente. Por favor, verifique e tente novamente.
-                        {params.productId}
-                    </p>
-                    <Link href={"/categorias/lista-de-categorias"} className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md transition-colors duration-300">
-                        OK
-                    </Link>
-                </div>
-            </section>
-        );
+    if (!product || isLoading || loading) {
+        return <LoadingPage />;
     }
 
-    const googleMapsUrl = products[0].googleMapsUrl || "https://www.google.com/maps";
+    const googleMapsUrl = product?.googleMapsUrl || "https://www.google.com/maps";
 
     const productDetails = [
         {
             category: "Características principais",
-            items: products[0].features || [],
+            items: product?.features || [],
         },
         {
             category: "Dimensões Aproximadas",
-            items: products[0].dimensions || [],
+            items: product?.dimensions || [],
         },
         {
             category: "Especificações",
-            items: products[0].specifications || [],
+            items: product?.specifications || [],
         },
         {
             category: "Recomendações",
-            items: products[0].recommendations || [],
+            items: product?.recommendations || [],
         },
     ];
 
-
-    categories;
+    const filtteredProducts = products?.filter(filtteredProduct => filtteredProduct.categoryName === product.categoryName);
 
     return (
         <section className="w-full h-auto py-[80px] px-4 md:px-8 lg:px-12">
             <div className="w-full flex lg:flex-row flex-col gap-[40px] justify-start items-start">
                 <div className="w-full lg:w-2/4 h-[auto] border border-slate-400 rounded-lg p-1">
-                    <MugDetailImageSlider images={products[0].files || []} />
+                    <MugDetailImageSlider images={product?.files || []} />
                 </div>
                 <div className="w-full sm:w-/24 space-y-4">
                     <div className="space-y-4 mt-0 sm:mt-4">
-                        <h1 className="text-2xl font-bold text-gray-900">{products[0].name}</h1>
-                        <p className="text-gray-700">{products[0].description}</p>
+                        <h1 className="text-2xl font-bold text-gray-900">{product?.name}</h1>
+                        <p className="text-gray-700 text-base sm:text-lg">{product?.description}</p>
                     </div>
-                    
-                    <div className="space-y-1">
-                        <h2 className="font-medium">Por apenas</h2>
+
+                    <div className="space-y-1 p-2">
                         <div className="flex items-center space-x-2">
                             <p className="font-bold text-2xl">
-                                R$ {products[0].price}
+                                R$ {product?.price}
                             </p>
-                            <span className="text-sm text-gray-500">unidade</span>
+                            <span className="text-base text-gray-500">/unidade</span>
                         </div>
                     </div>
 
@@ -110,22 +109,18 @@ export default function MugDetails({ params }: { params: { productId: string } }
                         ))}
                     </div>
 
-                    <div className="w-full flex flex-col-reverse md:flex-row gap-2 py-4">
+                    <div className="w-full flex flex-col-reverse md:flex-row gap-4 py-4">
                         <button
                             type="button"
-                            className="w-full sm:w-auto border border-[#0074d4] hover:shadow-md px-4 py-2 rounded-md  text-[#0074d4] cursor-pointer transition-all duration-300 font-semibold"
-                            onClick={() => addProduct(products[0].id)}
+                            onClick={() => {
+                                if (product?.id && product?.name && product?.files[1]) {
+                                    addProduct(product.id, product.name, product.files[1]);
+                                }
+                            }}                            
+                            className="w-full md:w-auto text-center px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                         >
-                            Adicionar ao carrinho
+                            Adicionar ao Carrinho
                         </button>
-                        <Link
-                            href={"/carrinho"}
-                            type="button"
-                            onClick={() => addProduct(products[0].id)}
-                            className="w-full sm:w-auto bg-[#0A91FF] hover:bg-[#33A3FF] hover:shadow-md text-slate-50 px-7 py-2 rounded-md  cursor-pointer text-center font-semibold"
-                        >
-                            Comprar Agora
-                        </Link>
                     </div>
                 </div>
             </div>
@@ -133,7 +128,7 @@ export default function MugDetails({ params }: { params: { productId: string } }
             <div className="space-y-4 mt-8 p-4 bg-slate-50 rounded-md">
                 <h2 className="font-bold text-lg">Descubra o Local da Estampa</h2>
                 <p>
-                    {products[0].locationDescription}
+                    {product?.locationDescription}
                 </p>
                 <button
                     type="button"
@@ -143,9 +138,25 @@ export default function MugDetails({ params }: { params: { productId: string } }
                     <span> Visitar no Google Maps </span>
                 </button>
             </div>
-
-            <RelatedProductsSlider />
-            <FAQSection />
+            <section className="space-y-6 mt-12 pb-[40px]">
+                <h2 className="text-lg sm:text-xl text-center font-semibold text-gray-800 border-b border-gray-200 pb-4">
+                    Produtos Relacionados
+                </h2>
+                <div className="flex overflow-x-auto gap-6 py-4">
+                    {filtteredProducts?.slice(0, 6).map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            id={product.id}
+                            onLoading={handleViewDetails}
+                            name={product.name}
+                            price={product.price}
+                            imageUrl={product.files[3]}
+                            onAddToCart={() => addProduct(product.id, product.name, product.files[1])}
+                        />
+                    ))}
+                </div>
+            </section>
+            <Benefits />
         </section>
     );
 }

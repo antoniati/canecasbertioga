@@ -1,16 +1,33 @@
 "use client";
 
+import { Product } from "@prisma/client";
+import clsx from "clsx";
+import { Work_Sans } from "next/font/google";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { CartContext } from "@/contexts/CartContextProvider";
-import { products } from "@/utils/productDataTest";
 
-import { EyeIcon } from "./Icons";
-import { Image } from "./Image";
+import { LoadingPage } from "./LoadingPage";
+import { ProductCard } from "./ProductCard";
 
-export const NewsProducts = () => {
+
+const workSans = Work_Sans({
+    subsets: ["latin"],
+    weight: ["400"],
+});
+
+export const NewsProducts = ({ products }: { products: Product[] }) => {
     const cartContext = useContext(CartContext);
+    const [loading, setLoading] = useState(false);
+
+    const handleViewDetails = () => {
+        setLoading(true);
+    };
+
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     if (!cartContext) {
         throw new Error("CartContext not found");
@@ -20,57 +37,35 @@ export const NewsProducts = () => {
 
     if (products && products.length > 0) {
         return (
-            <section className="w-full bg-white px-4 md:px-8 lg:px-12 flex flex-col gap-[15px] items-center justify-center pb-[40px]">
-                <h2 className={"w-full py-[40px] border-t border-slate-200 text-center text-lg sm:text-xl"}>
-                    Explore Nossa Nova Coleção Exclusiva de Canecas
-                </h2>
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 py-4 gap-6">
-                    {products.slice(0, 9).map((product, index) => (
-                        <div key={index} className="w-full bg-white sm:max-w-[400px] border rounded-md flex flex-col items-start justify-between shadow-md transition-transform transform hover:scale-105">
-                            <Link href={`/canecas/detalhes/${product.id}`}>
-                                <div className="w-full relative">
-                                    <span className="absolute bottom-2 text-[14px] right-4 text-slate-400">
-                                        Imagem ilustrativa
-                                    </span>
-                                    <Image
-                                        path={product.files[3]}
-                                        alt={`Imagem ${product.name}`}
-                                        className="object-contain w-auto h-auto max-w-full max-h-full border-2 border-slate-200 hover:border-blue-500 transition-all duration-300 rounded-md"
-                                        width={1000}
-                                        height={1000}
-                                        priority={true}
-                                    />
-                                    <div className=" absolute top-0 right-0 w-full h-full rounded-md opacity-0 hover:opacity-50 bg-gray-900 transition-all duration-500 flex flex-col items-center justify-center space-y-4">
-                                        <span className="absolute top-0 right-0 mr-4 mt-4 text-white">
-                                            <EyeIcon w="36" h="36" />
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                            <div className="w-full px-4 flex-col mt-4 justify-start items-start space-y-2">
-                                <h3 className="font-medium text-md">{product.name}</h3>
-                                <div>
-                                    <div className="space-y-1">                                        <div className="flex items-center space-x-2">
-                                        <p className="font-bold text-lg">
-                                            R$ {product.price}
-                                        </p>
-                                        <span className="text-sm text-gray-500">unidade</span>
-                                    </div>
-                                    </div>
-                                    <div className="w-full flex flex-col gap-2 py-4">
-                                        <button
-                                            type="button"
-                                            className="w-full border border-[#0074d4] hover:shadow-md px-4 py-2 rounded-md  text-[#0074d4] cursor-pointer transition-all duration-300 font-semibold"
-                                            onClick={() => addProduct(product.id)}
-                                        >
-                                            Adicionar ao carrinho
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <section className="w-full bg-white flex flex-col items-center justify-center px-4 md:px-6 lg:px-12 xl:px-24">
+                <header className="w-full flex items-center justify-center h-[100px]">
+                    <h2 className={clsx(workSans.className, "w-full text-center text-lg sm:text-xl")}>
+                        Explore Nossa Nova Coleção Exclusiva de Canecas
+                    </h2>
+                </header>
+                {/* Grid de produtos */}
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    {products.slice(3, 11).map(product => (
+                        <ProductCard
+                            key={product.id}
+                            id={product.id}
+                            onLoading={handleViewDetails}
+                            name={product.name}
+                            price={product.price}
+                            imageUrl={product.files[3]}
+                            onAddToCart={() => addProduct(product.id, product.name, product.files[1])}
+                        />
                     ))}
-                </div>
+                </section>
+                <footer className="w-full flex items-center justify-center h-[200px] px-[20px]">
+                    <Link
+                        href="/canecas"
+                        className="w-full md:w-auto text-center px-6 border-blue-600 border text-blue-600 font-semibold py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                        onClick={handleViewDetails}
+                    >
+                        Veja a Coleção Completa
+                    </Link>
+                </footer>
             </section >
         );
     }

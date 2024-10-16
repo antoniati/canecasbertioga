@@ -1,13 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import Slider, { CustomArrowProps } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { ChevronIcon, VideoIcon } from "./Icons";
-import { Image } from "./Image";
-import { Video } from "./Video";
+
 
 const isVideo = (url: string) => {
   const videoExtensions = [".mp4", ".avi", ".mov", ".wmv", ".webm"];
@@ -47,23 +47,24 @@ export const MugDetailImageSlider = ({ images }: { images: string[] }) => {
       {/* Main slider */}
       <div className="overflow-hidden">
         <Slider ref={mainSliderRef} {...mainSliderSettings}>
-          {reorderedImages.map((image, index) =>
+          {reorderedImages.slice(0, 4).map((image, index) =>
             isVideo(image) ? (
-              <div key={image} className="w-full sm:h-[450px] h-[300px]">
-                <Video
+              <div key={image} className="w-full h-[350px] lg:h-[500px]">
+                <video
                   key={image}
-                  path={image}
-                  alt={`Video ${index + 1}`}
+                  src={`${image}`}
                   controls={false}
-                  autoplay={true}
+                  className="object-cover w-full h-full"
+                  muted
+                  autoPlay
                   loop={true}
                 />
               </div>
             ) : (
-              <div key={image} className="w-full sm:h-[450px] h-[300px]">
+              <div key={image} className="w-full h-[350px] lg:h-[500px]">
                 <Image
                   key={image}
-                  path={image}
+                  src={`${image}`}
                   alt={`Imagem Caneca ${index}`}
                   width={1000}
                   height={1000}
@@ -75,10 +76,10 @@ export const MugDetailImageSlider = ({ images }: { images: string[] }) => {
         </Slider>
       </div>
 
-      <p className="w-full text-center text-gray-500 text-sm pt-0 sm:pt-4">Imagens Ilustrativas</p>
+      <p className="absolute w-full text-center text-gray-500 text-sm pt-0 sm:pt-4 top-0">Imagens Ilustrativas</p>
       {/* Thumbnails */}
       <div className="flex justify-center mt-4 gap-2 overflow-x-auto p-2">
-        {reorderedImages.map((image, index) => (
+        {reorderedImages.slice(0, 4).map((image, index) => (
           <div
             key={image}
             onClick={() => handleThumbnailClick(index)}
@@ -92,10 +93,10 @@ export const MugDetailImageSlider = ({ images }: { images: string[] }) => {
               </div>
             ) : (
               <Image
-                path={image}
+                src={`${image}`}
                 alt={`Imagem Caneca ${index}`}
                 width={1000}
-                height={1000}
+                height={800}
                 className="object-cover w-full h-full rounded-lg"
               />
             )}

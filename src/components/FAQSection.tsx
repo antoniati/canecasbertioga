@@ -1,9 +1,16 @@
 "use client";
 
+import clsx from "clsx";
+import { Work_Sans } from "next/font/google";
 import Link from "next/link";
 import { useState } from "react";
 
 import { ChevronIcon } from "./Icons";
+
+const workSans = Work_Sans({
+    subsets: ["latin"],
+    weight: ["300"],
+});
 
 export const faqData = [
     {
@@ -49,7 +56,7 @@ const FAQItem = ({ header, body }: { header: string; body: string }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="group flex w-full items-center justify-between p-2"
             >
-                <span className="pl-1 text-start text-md font-medium text-slate-700">
+                <span className="pl-1 text-start text-base font-semibold text-slate-700">
                     {header}
                 </span>
                 <div className={`transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`}>
@@ -67,18 +74,19 @@ const FAQItem = ({ header, body }: { header: string; body: string }) => {
 
 export const FAQSection = () => {
     return (
-        <section className="w-full bg-white px-4 md:px-8 lg:px-12 h-auto">
-            <h2 className={"w-full py-[40px] border-t border-slate-200 text-center text-[16px] sm:text-xl"}>
-                Suporte informado para tirar todas suas dúvidas
-            </h2>
-
-            <div className="w-full flex flex-col sm:flex-row justify-between py-[20px] sm:py-[40px] sm:gap-[40px] gap-[20px]">
+        <section className="w-full bg-white flex flex-col items-center justify-center px-4 md:px-8 lg:px-12">
+            <header className="w-full hidden md:flex items-center justify-center h-[100px]">
+                <h2 className={clsx(workSans.className, "w-full text-center text-lg sm:text-xl")}>
+                    Suporte informado para tirar todas suas dúvidas
+                </h2>
+            </header>
+            <div className="w-full flex flex-col sm:flex-row justify-center sm:justify-between py-[20px] sm:py-[40px] sm:gap-[40px] gap-[20px]">
                 <div className="w-full sm:w-2/4">
-                    <h2 className="text-lg sm:text-2xl font-semibold text-slate-900">
+                    <h2 className="text-lg sm:text-2xl font-semibold text-slate-900 text-center sm:text-start">
                         Perguntas Frequentes
                     </h2>
 
-                    <p className="mt-1 text-md sm:text-lg max-w-lg">
+                    <p className="mt-1 text-md sm:text-lg max-w-lg text-center sm:text-start">
                         Tem outra pergunta? Entre em contato conosco no{" "}
                         <Link
                             href="https://wa.me/5513981257704"

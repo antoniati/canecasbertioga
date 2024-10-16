@@ -1,10 +1,13 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+import { ProductToast } from "@/components/ProductToast";
 
 interface CartContextProps {
     cartProducts: string[];
-    addProduct: (productId: string) => void;
+    addProduct: (productId: string, productName: string, productImage: string) => void;
     removeProduct: (productId: string) => void;
     clearCart: () => void;
 }
@@ -25,10 +28,13 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         }
     }, []);
 
-    const addProduct = (productId: string) => {
+    const addProduct = (productId: string, productName: string, productImage: string) => {
         setCartProducts((prev) => {
             const updatedCartProducts = [...prev, productId];
             localStorage.setItem("cart", JSON.stringify(updatedCartProducts));
+            toast(<ProductToast productName={productName} productImage={productImage} />, {
+                toastId: productId,
+            });
             return updatedCartProducts;
         });
     };
