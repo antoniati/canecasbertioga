@@ -30,6 +30,4 @@ export async function POST(req: Request) {
   }
 }
 
-export const config = {
-  runtime: "edge", // Optional: para otimizar o desempenho usando runtimes edge
-};
+export const runtime = "edge";
