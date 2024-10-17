@@ -29,7 +29,6 @@ export default function Home() {
       <div className="px-4 md:px-6 lg:px-12 xl:px-24 flex items-center justify-center pb-12"> 
         <Benefits />
       </div>
-      {/* <FAQSection /> */}
       <Footer />
       <ProductSearch />
     </main>
