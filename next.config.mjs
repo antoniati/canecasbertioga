@@ -1,7 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url'; // Adiciona para lidar com o caminho correto
 
-// Estas duas linhas definem __dirname no contexto do ESModules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -19,7 +18,9 @@ const nextConfig = {
           ],
     },
     webpack: (config) => {
-        config.resolve.alias['@components'] = path.resolve(__dirname, 'src/components');
+        config.resolve.fallback = {
+            crypto: require.resolve('crypto-browserify'), // Polyfill do 'crypto' para o browser
+        };
         return config;
     },
 };
