@@ -24,7 +24,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
 
     if (!cartContext) {
         throw new Error("Contexto do carrinho não encontrado!");
-    };
+    }
 
     const { cartProducts } = cartContext;
 
