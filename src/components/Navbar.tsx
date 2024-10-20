@@ -1,7 +1,7 @@
 "use client";
 
-import { UserRole } from "@prisma/client";
 import Link from "next/link";
+import { UserRole } from "@prisma/client";
 import { useContext, useEffect, useState, useRef } from "react";
 
 import { CartIcon, ListIcon, PersonIcon, QuestionIcon, LogoIcon, ShopIcon, SearchIcon, LogoutIcon, MenuIcon, MugIcon, DashboardIcon } from "@/components/Icons";
@@ -24,7 +24,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
 
     if (!cartContext) {
         throw new Error("Contexto do carrinho não encontrado!");
-    }
+    };
 
     const { cartProducts } = cartContext;
 
@@ -118,6 +118,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
                         </>
                     </h1>
                 </Link>
+
                 <div className="w-2/4 flex items-center justify-end space-x-2 sm:space-x-4">
                     {currentUser && currentUser.role === UserRole.ADMIN ? (
                         <Link href={"/dashboard"} className="transition-transform transform hover:scale-105">
@@ -134,6 +135,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
                             </div>
                         </button>
                     )}
+
                     <Link href={"/carrinho"} className="transition-transform transform hover:scale-105">
                         <div className="flex items-center space-x-2">
                             <CartIcon w="22" h="22" />
@@ -141,6 +143,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
                             ({cartProducts.length})
                         </div>
                     </Link>
+
                     <div className="relative">
                         {/* Botão para abrir o menu lateral */}
                         <button
@@ -186,7 +189,7 @@ export const Navbar = ({ scrollHeigh }: { scrollHeigh: number }) => {
                                     )}
                                 </ul>
 
-                                {/* Botão de fechar */}
+                                {/* Botão para fechar o menu lateral*/}
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
                                     className="absolute top-[10px] right-[10px] text-slate-700 text-3xl cursor-pointer"

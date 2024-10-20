@@ -27,7 +27,7 @@ const benefits = [
 
 export const Benefits = () => {
     return (
-        <section className="w-full flex items-center justify-center bg-gradient-to-r from-gray-50 to-gray-100 text-slate-800 py-12 lg:py-20 md:px-0 pt-[40px]">
+        <section className="w-full flex items-center justify-center bg-gradient-to-r from-gray-50 to-gray-100 text-slate-800 py-12 lg:py-20 md:px-0 pt-[40px] rounded-lg">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
                 {benefits.map((benefit, index) => (
                     <div key={index} className="flex">
